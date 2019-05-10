@@ -1,0 +1,38 @@
+{
+  "name": "notes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "npm run serve",
+    "serve": "node $npm_package_main",
+    "build": "npm run clean && npm run build:ts && npm run tslint",
+    "build:ts": "tsc",
+    "watch": "tsc-watch --onSuccess \"npm run serve\"",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "clean": "rimraf dist",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:unit": "jest --config ./test/jest-unit.json",
+    "test:integration": "jest --config ./test/jest-integration.json",
+    "test:e2e": "jest --config ./test/jest-e2e.json"
+  },
+  "author": "Fabijan Bajo",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/hapi": "^18.0.2",
+    "@types/jest": "^24.0.12",
+    "@types/node": "^12.0.0",
+    "jest": "^24.8.0",
+    "rimraf": "^2.6.3",
+    "ts-jest": "^24.0.2",
+    "tsc-watch": "^2.1.2",
+    "tslint": "^5.16.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "hapi": "^18.1.0"
+  }
+}
