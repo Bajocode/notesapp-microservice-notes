@@ -1,5 +1,5 @@
-import { constructApp } from './app';
+import { bootstrap } from './bootstrap';
 
 (async () => {
-  await constructApp();
+  await bootstrap();
 })();

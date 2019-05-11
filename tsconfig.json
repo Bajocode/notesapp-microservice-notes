@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
+    "resolveJsonModule": true,
     "sourceMap": true,
     "outDir": "dist",
     "strict": true,
@@ -9,8 +10,7 @@
     "baseUrl": ".",
     "paths": {
       "*": [
-        "node_modules/*",
-        "src/types/*"
+        "node_modules/*"
       ]
     },
     "allowSyntheticDefaultImports": true,

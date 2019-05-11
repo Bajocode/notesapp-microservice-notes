@@ -1,7 +1,7 @@
-import MongooseRepository from '../common/repository/MongooseRepository';
+import AMongooseRepository from '../common/AMongooseRepository';
 import { INoteModel, noteSchema } from './note';
 
-export default class NoteRepository extends MongooseRepository<INoteModel> {
+export default class NoteRepository extends AMongooseRepository<INoteModel> {
   public constructor() {
     super('Note', noteSchema);
   }
