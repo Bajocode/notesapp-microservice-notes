@@ -1,5 +1,7 @@
 import mongoose, { Mongoose } from 'mongoose';
 import NoteRepository from './domain/notes/NoteRepository';
+import Config from './Config';
+import { Logger } from 'winston';
 
 export enum MongoState {
   Conntected = 'connected',
@@ -12,13 +14,13 @@ export interface IMongoContext {
   notes: NoteRepository;
 }
 
-export const constructMongoContext = async (): Promise<IMongoContext> => {
+export const constructMongoContext = async (config: Config,
+                                            logger: Logger): Promise<IMongoContext> => {
   mongoose.Promise = global.Promise;
+  const mongoUrl = `${config.MONGO_URL}:${config.MONGO_PORT}/${config.MONGO_DBNAME}`;
 
-  const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/notes';
-
-  processMongoEvents(mongoose, mongoUrl);
-  ensureGracefulShutdown(mongoose);
+  processMongoEvents(mongoose, mongoUrl, logger);
+  ensureGracefulShutdown(mongoose, logger);
   connect(mongoose, mongoUrl);
 
   return {
@@ -26,26 +28,26 @@ export const constructMongoContext = async (): Promise<IMongoContext> => {
   };
 };
 
-const processMongoEvents = (mongoose: Mongoose, mongoUrl: string) => {
+const processMongoEvents = (mongoose: Mongoose, mongoUrl: string, logger: Logger) => {
   mongoose.connection.on(MongoState.Conntected, () => {
-    console.log(`Mongo connected: ${mongoUrl}`);
+    logger.info(`Mongo connected: ${mongoUrl}`);
   });
   mongoose.connection.on(MongoState.Error, (error) => {
-    console.log(`Mongo connection error: ${error}`);
+    logger.info(`Mongo connection error: ${error}`);
   });
   mongoose.connection.on(MongoState.Disconnected, () => {
-    console.log('Mongo disconnected');
+    logger.info('Mongo disconnected');
   });
   mongoose.connection.on(MongoState.Reconnected, () => {
-    console.log('Mongo reconnected');
+    logger.info('Mongo reconnected');
   });
 };
 
-const ensureGracefulShutdown = (mongoose: Mongoose) => {
+const ensureGracefulShutdown = (mongoose: Mongoose, logger: Logger) => {
   process.on('SIGINT', () => {
     mongoose.connection.close()
       .then(() => {
-        console.log('Mongo disconnected through app termination');
+        logger.error('Mongo disconnected through app termination');
         process.exit(0);
       });
   });

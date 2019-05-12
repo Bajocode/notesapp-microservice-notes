@@ -20,35 +20,35 @@ var MongoState;
     MongoState["Reconnected"] = "reconnected";
     MongoState["Error"] = "error";
 })(MongoState = exports.MongoState || (exports.MongoState = {}));
-exports.constructMongoContext = () => __awaiter(this, void 0, void 0, function* () {
+exports.constructMongoContext = (config, logger) => __awaiter(this, void 0, void 0, function* () {
     mongoose_1.default.Promise = global.Promise;
-    const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/notes';
-    processMongoEvents(mongoose_1.default, mongoUrl);
-    ensureGracefulShutdown(mongoose_1.default);
+    const mongoUrl = `${config.MONGO_URL}:${config.MONGO_PORT}/${config.MONGO_DBNAME}`;
+    processMongoEvents(mongoose_1.default, mongoUrl, logger);
+    ensureGracefulShutdown(mongoose_1.default, logger);
     connect(mongoose_1.default, mongoUrl);
     return {
         notes: new NoteRepository_1.default(),
     };
 });
-const processMongoEvents = (mongoose, mongoUrl) => {
+const processMongoEvents = (mongoose, mongoUrl, logger) => {
     mongoose.connection.on(MongoState.Conntected, () => {
-        console.log(`Mongo connected: ${mongoUrl}`);
+        logger.info(`Mongo connected: ${mongoUrl}`);
     });
     mongoose.connection.on(MongoState.Error, (error) => {
-        console.log(`Mongo connection error: ${error}`);
+        logger.info(`Mongo connection error: ${error}`);
     });
     mongoose.connection.on(MongoState.Disconnected, () => {
-        console.log('Mongo disconnected');
+        logger.info('Mongo disconnected');
     });
     mongoose.connection.on(MongoState.Reconnected, () => {
-        console.log('Mongo reconnected');
+        logger.info('Mongo reconnected');
     });
 };
-const ensureGracefulShutdown = (mongoose) => {
+const ensureGracefulShutdown = (mongoose, logger) => {
     process.on('SIGINT', () => {
         mongoose.connection.close()
             .then(() => {
-            console.log('Mongo disconnected through app termination');
+            logger.error('Mongo disconnected through app termination');
             process.exit(0);
         });
     });

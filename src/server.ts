@@ -7,25 +7,28 @@ import { IMongoContext } from './mongo';
 import IDomainValidator from './domain/common/IDomainValidator';
 import NoteValidator from './domain/notes/NoteValidator';
 import notes from './domain/notes';
+import Config from './Config';
+import { Logger } from 'winston';
 
-export const constructServer = async (context: IMongoContext): Promise<Server> => {
+export const constructServer = async (config: Config,
+                                      logger: Logger,
+                                      context: IMongoContext): Promise<Server> => {
   try {
-    const server = instantiateServer();
+    const server = instantiateServer(config);
     await registerComponents(server, context);
     registerRoutes(server, context);
 
     return server;
   } catch (error) {
-    console.log(`Error constructing server: ${error}`);
+    logger.error(`Error constructing server: ${error}`);
     throw error;
   }
 };
 
-const instantiateServer = (): Server => {
+const instantiateServer = (config: Config): Server => {
   return new Server({
-    port: 3000,
-    host: 'localhost',
-    debug: { request: ['error'] },
+    host: config.SERVER_DOMAIN,
+    port: config.SERVER_PORT,
   });
 };
 

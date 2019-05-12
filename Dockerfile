@@ -24,4 +24,4 @@ USER node
 WORKDIR /home/node
 COPY --chown=node:node --from=analyzer /home/node .
 EXPOSE 3000/tcp
-ENTRYPOINT ["node", "dist/index.js"]
+ENTRYPOINT ["node", "dist/src/index.js"]

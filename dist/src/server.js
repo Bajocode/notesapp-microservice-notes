@@ -18,23 +18,22 @@ const hapi_swagger_1 = __importDefault(require("hapi-swagger"));
 const package_json_1 = __importDefault(require("../package.json"));
 const NoteValidator_1 = __importDefault(require("./domain/notes/NoteValidator"));
 const notes_1 = __importDefault(require("./domain/notes"));
-exports.constructServer = (context) => __awaiter(this, void 0, void 0, function* () {
+exports.constructServer = (config, logger, context) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const server = instantiateServer();
+        const server = instantiateServer(config);
         yield registerComponents(server, context);
         registerRoutes(server, context);
         return server;
     }
     catch (error) {
-        console.log(`Error constructing server: ${error}`);
+        logger.error(`Error constructing server: ${error}`);
         throw error;
     }
 });
-const instantiateServer = () => {
+const instantiateServer = (config) => {
     return new hapi_1.Server({
-        port: 3000,
-        host: 'localhost',
-        debug: { request: ['error'] },
+        host: config.SERVER_DOMAIN,
+        port: config.SERVER_PORT,
     });
 };
 const registerComponents = (server, context) => __awaiter(this, void 0, void 0, function* () {
