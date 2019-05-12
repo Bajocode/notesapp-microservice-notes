@@ -9,6 +9,8 @@ export default class Config {
   public readonly MONGO_URL: string;
   public readonly MONGO_PORT: number;
   public readonly MONGO_DBNAME: string;
+  public readonly MONGO_USER: string;
+  public readonly MONGO_PASSWORD: string;
 
   public constructor() {
     const { error, value: envVars } = joi.validate(process.env, this.envVarsSchema);
@@ -25,6 +27,8 @@ export default class Config {
     this.MONGO_URL = envVars.MONGO_URL!;
     this.MONGO_PORT = parseInt(envVars.MONGO_PORT!, 10);
     this.MONGO_DBNAME = envVars.MONGO_DBNAME!;
+    this.MONGO_USER = envVars.MONGO_USER!;
+    this.MONGO_PASSWORD = envVars.MONGO_PASSWORD!;
   }
 
   private readonly envVarsSchema: ObjectSchema = joi.object({
@@ -47,6 +51,10 @@ export default class Config {
       .default(27017),
     MONGO_DBNAME: joi.string()
       .default('notes'),
+    MONGO_USER: joi.string()
+      .default('test'),
+    MONGO_PASSWORD: joi.string()
+      .default('test'),
   }).unknown()
     .required();
 }

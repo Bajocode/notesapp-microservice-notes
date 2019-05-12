@@ -1,0 +1,49 @@
+image:
+  tag: 4.0.9
+## ref: https://github.com/bitnami/bitnami-docker-mongodb/blob/master/README.md#creating-a-user-and-database-on-first-run
+usePassword: true
+mongodbUsername: test
+mongodbPassword: test
+mongodbDatabase: notes
+
+service:
+  annotations: {}
+  type: ClusterIP
+  # clusterIP: None
+  port: 27017
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+nodeSelector: {}
+affinity: {}
+tolerations: []
+
+updateStrategy:
+  type: RollingUpdate
+
+persistence:
+  enabled: false
+
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+metrics:
+  enabled: false

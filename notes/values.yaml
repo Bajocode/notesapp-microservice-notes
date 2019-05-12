@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: fabijanbajo/notes
-  tag: latest
+  tag: dev
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -44,3 +44,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+app:
+  nodeEnv: development
