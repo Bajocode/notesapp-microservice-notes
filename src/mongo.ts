@@ -17,7 +17,7 @@ export interface IMongoContext {
 export const constructMongoContext = async (config: Config,
                                             logger: Logger): Promise<IMongoContext> => {
   mongoose.Promise = global.Promise;
-  const mongoUrl = `${config.MONGO_URL}:${config.MONGO_PORT}/${config.MONGO_DBNAME}`;
+  const mongoUrl = `${config.MONGODB_URL}:${config.MONGODB_PORT}/${config.MONGODB_DATABASE}`;
 
   processMongoEvents(mongoose, mongoUrl, logger);
   ensureGracefulShutdown(mongoose, logger);
@@ -55,14 +55,15 @@ const ensureGracefulShutdown = (mongoose: Mongoose, logger: Logger) => {
 
 const connect = async (mongoose: Mongoose, mongoUrl: string, config: Config) => {
   const options: ConnectionOptions = {
-    user: config.MONGO_USER,
-    pass: config.MONGO_PASSWORD,
-    dbName: config.MONGO_DBNAME,
+    user: config.MONGODB_USERNAME,
+    pass: config.MONGODB_PASSWORD,
+    dbName: config.MONGODB_DATABASE,
     useNewUrlParser: true,
     autoReconnect: true,
     reconnectTries: 10,
     reconnectInterval: 3000,
   };
+
   await mongoose.connect(mongoUrl, options)
     .catch((error) => {
       throw error;

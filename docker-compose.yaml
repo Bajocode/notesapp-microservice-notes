@@ -4,8 +4,8 @@ services:
   mongodb:
     image: 'bitnami/mongodb:4.0.9'
     ports:
-      - "27017:27017"
+    - "27017:27017"
     environment:
-      - MONGODB_USERNAME=test
-      - MONGODB_PASSWORD=test
-      - MONGODB_DATABASE=notes
+    - MONGODB_USERNAME=test
+    - MONGODB_PASSWORD=test
+    - MONGODB_DATABASE=notes

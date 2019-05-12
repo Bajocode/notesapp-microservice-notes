@@ -38,6 +38,18 @@ spec:
           env:
           - name: NODE_ENV
             value: {{ .Values.app.nodeEnv }}
+          - name: SERVER_DOMAIN
+            value: "0.0.0.0"
+          - name: LOGGER_LEVEL
+            value: {{ .Values.app.loggerLevel }}
+          - name: MONGODB_URL
+            value: "mongodb://{{ .Values.app.mongodbServiceName }}.{{ .Release.Namespace }}"
+          - name: MONGODB_PORT
+            value: "{{ .Values.app.mongodbPort }}"
+          - name: MONGODB_USERNAME
+            value: {{ .Values.app.mongodbUsername }}
+          - name: MONGODB_PASSWORD
+            value: {{ .Values.app.mongodbPassword }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

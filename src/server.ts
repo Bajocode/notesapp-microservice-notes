@@ -27,7 +27,7 @@ export const constructServer = async (config: Config,
 
 const instantiateServer = (config: Config): Server => {
   return new Server({
-    host: config.SERVER_DOMAIN,
+    address: config.SERVER_DOMAIN,
     port: config.SERVER_PORT,
   });
 };
