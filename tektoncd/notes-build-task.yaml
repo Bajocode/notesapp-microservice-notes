@@ -1,0 +1,27 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: notes-build-task
+spec:
+  inputs:
+    resources:
+    - name: notes-git
+      type: git
+    params:
+    - name: dockerfile
+      default: /workspace/notes-git/Dockerfile-simple
+    - name: buildcontext
+      default: /workspace/notes-git
+  outputs:
+    resources:
+    - name: notes-image
+      type: image
+  steps:
+  - name: build-test-push
+    image: gcr.io/kaniko-project/executor
+    command:
+    - /kaniko/executor
+    args:
+    - --dockerfile=${inputs.params.dockerfile}
+    - --destination=${outputs.resources.notes-image.url}
+    - --context=${inputs.params.buildcontext}

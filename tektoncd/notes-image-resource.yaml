@@ -1,0 +1,9 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: notes-image-resource
+spec:
+  type: image
+  params:
+  - name: url
+    value: fabijanbajo/notes

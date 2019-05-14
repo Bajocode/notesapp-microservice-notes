@@ -1,9 +1,11 @@
 apiVersion: tekton.dev/v1alpha1
 kind: PipelineResource
 metadata:
-  name: notes-git
+  name: notes-git-resource
 spec:
   type: git
   params:
   - name: url
-    value: 
+    value: https://github.com/Bajocode/notesapp-backend-notes
+  - revision:
+    value: master
