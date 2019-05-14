@@ -5,7 +5,7 @@
   "main": "dist/src/index.js",
   "scripts": {
     "start": "npm run serve",
-    "serve": "node $npm_package_main",
+    "serve": "NODE_ENV=development node $npm_package_main",
     "build": "npm run clean && npm run build:ts && npm run tslint",
     "build:ts": "tsc",
     "watch": "tsc-watch --onSuccess \"npm run serve\"",
