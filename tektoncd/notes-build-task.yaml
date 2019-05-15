@@ -12,6 +12,8 @@ spec:
       default: /workspace/notes-git/Dockerfile-simple
     - name: buildcontext
       default: /workspace/notes-git
+    - name: targetstage
+      default: target
   outputs:
     resources:
     - name: notes-image
@@ -25,3 +27,4 @@ spec:
     - --dockerfile=${inputs.params.dockerfile}
     - --destination=${outputs.resources.notes-image.url}
     - --context=${inputs.params.buildcontext}
+    - --target=${inputs.params.target}

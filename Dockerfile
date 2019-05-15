@@ -19,7 +19,7 @@ RUN find . \
     -mindepth 1 \
     -exec rm -rf {} \;
 
-FROM node:10.15.3-alpine
+FROM node:10.15.3-alpine AS target
 USER node
 WORKDIR /home/node
 COPY --chown=node:node --from=analyzer /home/node .
