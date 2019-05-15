@@ -4,8 +4,8 @@ WORKDIR /home/node
 COPY --chown=node:node package*.json ./
 RUN ["npm", "i"]
 COPY --chown=node:node . .
-RUN su - node -c "npm run build"
-# RUN ["su", "-", "node", "-c", "npm", "run", "build"]
+RUN mkdir -p dist && chown -R node:node fist
+RUN ["npm", "run", "build"]
 
 FROM builder AS analyzer
 USER node

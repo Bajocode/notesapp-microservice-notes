@@ -28,4 +28,3 @@ spec:
     - --destination=${outputs.resources.notes-image.url}
     - --context=${inputs.params.buildcontext}
     - --target=${inputs.params.targetstage}
-    - --cache=false
