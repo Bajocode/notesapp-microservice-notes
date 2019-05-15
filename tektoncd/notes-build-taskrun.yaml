@@ -3,7 +3,7 @@ kind: TaskRun
 metadata:
   name: notes-build-taskrun
 spec:
-  serviceAccount: default
+  serviceAccount: docker
   taskRef:
     name: notes-build-task
   inputs:

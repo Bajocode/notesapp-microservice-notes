@@ -31,4 +31,4 @@ spec:
                "--opt", "filename=${inputs.params.dockerfile}",
                "--local", "context=${inputs.params.buildcontext}",
                "--local", "dockerfile=${inputs.params.buildcontext}",
-               "--output", "type=image,name=${outputs.resources.notes-image.url},push=${inputs.params.push}" ]
+               "--output", "type=image,name=docker.io/fabijanbajo/notes,push=${inputs.params.push}" ]
