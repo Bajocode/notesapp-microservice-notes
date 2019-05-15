@@ -1,6 +1,6 @@
 FROM node:10.15.3 AS builder
 USER node
-RUN mkdir -p /home/node/artifacts
+RUN mkdir -p /home/node/artifacts/dist
 WORKDIR /home/node/artifacts
 COPY --chown=node:node package*.json ./
 RUN ["npm", "i"]
