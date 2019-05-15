@@ -1,15 +1,15 @@
 FROM node:10.15.3 AS builder
-# USER node
-WORKDIR /artifacts
-COPY package*.json ./
+USER node
+WORKDIR /home/node
+COPY --chown=node:node package*.json ./
 RUN ["npm", "i"]
-COPY . .
-# RUN chown -R node:node /home/node
+COPY --chown=node:node . .
+RUN chown node --recursive .
 RUN ["npm", "run", "build"]
 
 FROM builder AS analyzer
 USER node
-WORKDIR /artifacts
+WORKDIR /home/node
 RUN ["npm", "run", "test:cov"]
 RUN find . \
     ! -name package.json \
@@ -23,6 +23,6 @@ RUN find . \
 FROM node:10.15.3-alpine AS target
 USER node
 WORKDIR /home/node
-COPY --chown=node:node --from=analyzer /artifacts .
+COPY --chown=node:node --from=analyzer /home/node .
 EXPOSE 3000/tcp
 ENTRYPOINT ["node", "dist/src/index.js"]
