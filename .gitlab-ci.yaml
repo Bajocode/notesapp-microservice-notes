@@ -1,0 +1,16 @@
+stages:
+- build
+
+variables:
+  K8S_CLUSTER_NAME: azure-free
+  K8S_URL: https://azure-free-azure-free-a224ad-ab0792b4.hcp.westeurope.azmk8s.io
+  K8S_USER_TOKEN: $K8S_USER_TOKEN_SECRET
+  K8S_USER_NAME: ci
+  HELM_VERSION: "2.13.1"
+
+build_test_push:
+  stage: build
+  image: dtzar/helm-kubectl:$HELM_VERSION
+  script:
+  - ./scripts/authenticate_cluster.sh
+  - ./scripts/build_test_push.sh
