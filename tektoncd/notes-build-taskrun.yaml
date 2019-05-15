@@ -3,8 +3,9 @@ kind: TaskRun
 metadata:
   name: notes-build-taskrun
 spec:
+  serviceAccount: default
   taskRef:
-    name: notes-build-task-buildkit
+    name: notes-build-task
   inputs:
     resources:
     - name: notes-git

@@ -8,23 +8,27 @@ spec:
     - name: notes-git
       type: git
     params:
+    - name: daemon
+      default: "tcp://buildkitd:1234"
     - name: dockerfile
-      default: /workspace/notes-git/Dockerfile
+      default: Dockerfile
     - name: buildcontext
       default: /workspace/notes-git
     - name: targetstage
       default: target
+    - name: push
+      default: "true"
   outputs:
     resources:
     - name: notes-image
       type: image
   steps:
   - name: build-test-push
-    image: gcr.io/kaniko-project/executor
-    command:
-    - /kaniko/executor
-    args:
-    - --dockerfile=${inputs.params.dockerfile}
-    - --destination=${outputs.resources.notes-image.url}
-    - --context=${inputs.params.buildcontext}
-    - --target=${inputs.params.targetstage}
+    image: moby/buildkit:latest
+    command: [ "buildctl", "--addr=${inputs.params.daemon}", "build",
+               "--progress=plain",
+               "--frontend=dockerfile.v0",
+               "--opt", "filename=${inputs.params.dockerfile}",
+               "--local", "context=${inputs.params.buildcontext}",
+               "--local", "dockerfile=${inputs.params.buildcontext}",
+               "--output", "type=image,name=${outputs.resources.notes-image.url},push=${inputs.params.push}" ]
