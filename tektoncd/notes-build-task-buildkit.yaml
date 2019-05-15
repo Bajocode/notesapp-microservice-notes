@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: notes-build-task
+  name: notes-build-task-buildkit
 spec:
   inputs:
     resources:
@@ -22,10 +22,10 @@ spec:
       type: image
   steps:
   - name: build-test-push
-    image: gcr.io/kaniko-project/executor
-    command: ["buildctl", "--addr=${daemon}", "build",
+    image: moby/buildkit:latest
+    command: ["buildctl", "--addr=${inputs.params.daemon}", "build",
               "--progress=plain",
               "--frontend=dockerfile.v0",
               "--opt", "filename=${inputs.params.dockerfile}",
-              "--local", "context=.", "--local", "dockerfile=.",
-              "--output", "type=image,name=${outputs.params.notes-image},push=false"]
+              "--local", "context=${inputs.params.buildcontext}", "--local", "dockerfile=${inputs.params.buildcontext}",
+              "--output", "type=image, push=false"]

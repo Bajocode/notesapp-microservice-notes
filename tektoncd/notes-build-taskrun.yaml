@@ -4,7 +4,7 @@ metadata:
   name: notes-build-taskrun
 spec:
   taskRef:
-    name: notes-build-task
+    name: notes-build-task-buildkit
   inputs:
     resources:
     - name: notes-git
