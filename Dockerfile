@@ -5,7 +5,7 @@ WORKDIR /home/node/artifacts
 COPY --chown=node:node package*.json ./
 RUN ["npm", "i"]
 COPY --chown=node:node . .
-RUN ["npm", "run", "build"]
+RUN ["npm", "run", "build:ts"]
 
 FROM builder AS analyzer
 USER node
