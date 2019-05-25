@@ -5,6 +5,14 @@
 
 This app represents the notes api and provides clients with note resource methods
 
+## Stack
+- kubernetes: https://kubernetes.io/
+- terraform: https://www.terraform.io/
+- helm: https://helm.sh/
+- tekton cd: https://tekton.dev/
+- hapijs: https://hapijs.com/
+- mongodb: https://www.mongodb.com/
+
 ## Installing
 
 A quick introduction of the minimal setup you need to get a hello world up &
@@ -17,6 +25,15 @@ npm install
 ```
 
 This will install the correct node and npm version using [nvm](https://github.com/nvm-sh/nvm)
+
+## Developing
+```bash
+# boot up mongodb (foreground)
+$ docker-compose up
+
+# run in watch mode with tsc-watch
+$ npm run watch
+```
 
 ## Running
 ```bash

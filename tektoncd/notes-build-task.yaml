@@ -2,6 +2,7 @@ apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
   name: notes-build-task
+  namespace: tekton-pipelines
 spec:
   inputs:
     resources:

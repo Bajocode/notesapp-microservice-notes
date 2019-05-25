@@ -2,8 +2,9 @@ apiVersion: tekton.dev/v1alpha1
 kind: TaskRun
 metadata:
   name: notes-build-taskrun
+  namespace: tekton-pipelines
 spec:
-  serviceAccount: docker
+  serviceAccount: docker-sa
   taskRef:
     name: notes-build-task
   inputs:
@@ -16,6 +17,3 @@ spec:
     - name: notes-image
       resourceRef:
         name: notes-image-resource
-       
-
-
