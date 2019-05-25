@@ -5,6 +5,13 @@
 
 This app represents the notes api and provides clients with note resource methods
 
+## Tutorial notes
+- buy domain on namecheap
+  - if your cluster supports ingress, enable it in values.yaml
+  - if not, link an DNS A-record to the external IP of a Node and append the node port to the url; `http://notes.bajo-k8s.online:30001/documentation`
+- 
+
+
 ## Stack
 - kubernetes: https://kubernetes.io/
 - terraform: https://www.terraform.io/
