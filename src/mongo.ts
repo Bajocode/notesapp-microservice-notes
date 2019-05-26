@@ -1,4 +1,4 @@
-import mongoose, { Mongoose, ConnectionOptions } from 'mongoose';
+import mongoose, { Mongoose, ConnectionOptions, mongo } from 'mongoose';
 import NoteRepository from './domain/notes/NoteRepository';
 import Config from './Config';
 import { Logger } from 'winston';
@@ -19,7 +19,7 @@ export const constructMongoContext = async (config: Config,
   mongoose.Promise = global.Promise;
   const mongoUrl = `${config.MONGODB_URL}:${config.MONGODB_PORT}/${config.MONGODB_DATABASE}`;
 
-  processMongoEvents(mongoose, mongoUrl, logger);
+  processMongoEvents(mongoose, mongoUrl, config, logger);
   ensureGracefulShutdown(mongoose, logger);
   connect(mongoose, mongoUrl, config);
 
@@ -28,16 +28,21 @@ export const constructMongoContext = async (config: Config,
   };
 };
 
-const processMongoEvents = (mongoose: Mongoose, mongoUrl: string, logger: Logger) => {
+const processMongoEvents = (mongoose: Mongoose,
+                            mongoUrl: string,
+                            config: Config,
+                            logger: Logger) => {
   mongoose.connection.on(MongoState.Conntected, () => {
     logger.info(`Mongo connected: ${mongoUrl}`);
   });
   mongoose.connection.on(MongoState.Error, (error) => {
     logger.error(`Mongo connection error: ${error}`);
-
-    throw error;
   });
   mongoose.connection.on(MongoState.Disconnected, () => {
+    setTimeout(() => {
+      connect(mongoose, mongoUrl, config);
+    },         5000);
+
     logger.info('Mongo disconnected');
   });
   mongoose.connection.on(MongoState.Reconnected, () => {
@@ -61,9 +66,7 @@ const connect = async (mongoose: Mongoose, mongoUrl: string, config: Config) => 
     pass: config.MONGODB_PASSWORD,
     dbName: config.MONGODB_DATABASE,
     useNewUrlParser: true,
-    autoReconnect: true,
-    reconnectTries: 10,
-    reconnectInterval: 3000,
+    poolSize: 1,
   };
 
   await mongoose.connect(mongoUrl, options)
