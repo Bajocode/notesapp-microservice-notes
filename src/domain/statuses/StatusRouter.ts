@@ -4,23 +4,25 @@ import StatusController from './StatusController';
 
 export default class StatusRouter {
   public constructor(server: Server,
-                     controller: StatusController) {
+                     controller: StatusController,
+                     domainName: string) {
     server.route([
-      this.getLiveness(controller),
-      this.getReadiness(controller),
+      this.getLiveness(controller, domainName),
+      this.getReadiness(controller, domainName),
     ]);
   }
 
-  public getLiveness(controller: StatusController): ServerRoute {
+  public getLiveness(controller: StatusController,
+                     domainName: string): ServerRoute {
     return {
       method: 'GET',
-      path: '/healthz',
+      path: `/${domainName}/healthz`,
       handler: async (request, h) => {
         const response = await controller.handleGetLiveness();
         return toHapiResponse(response, h);
       },
       options: {
-        description: 'GET liveness',
+        description: `GET health ${domainName}`,
         notes: 'Informs interested interested listeners if a full system restart is needed',
         tags: ['api'],
         plugins: {
@@ -34,10 +36,11 @@ export default class StatusRouter {
     };
   }
 
-  public getReadiness(controller: StatusController): ServerRoute {
+  public getReadiness(controller: StatusController,
+                      domainName: string): ServerRoute {
     return {
       method: 'GET',
-      path: '/readyz',
+      path: `/${domainName}/readyz`,
       handler: async (request, h) => {
         const response = await controller.handleGetReadiness();
         return toHapiResponse(response, h);

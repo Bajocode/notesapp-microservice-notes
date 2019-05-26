@@ -27,14 +27,6 @@ spec:
             - name: http
               containerPort: 3000
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /documentation
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /documentation
-              port: http
           env:
           - name: NODE_ENV
             value: {{ .Values.app.nodeEnv }}
@@ -50,6 +42,28 @@ spec:
             value: {{ .Values.app.mongodbUsername }}
           - name: MONGODB_PASSWORD
             value: {{ .Values.app.mongodbPassword }}
+          {{- if .Values.livenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              path: /statuses/healthz
+              port: http
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          {{- end }}
+          {{- if .Values.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              path: /statuses/readyz
+              port: http
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

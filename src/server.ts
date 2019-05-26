@@ -7,7 +7,7 @@ import { IMongoContext } from './mongo';
 import IDomainValidator from './domain/common/IDomainValidator';
 import NoteValidator from './domain/notes/NoteValidator';
 import notes from './domain/notes';
-import status from './domain/status';
+import statuses from './domain/statuses';
 import Config from './Config';
 import { Logger } from 'winston';
 
@@ -55,5 +55,5 @@ const registerRoutes = (server: Server,
   };
 
   notes(server, context, validator);
-  status(server);
+  statuses(server);
 };
