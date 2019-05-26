@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
   repository: fabijanbajo/notes
-  tag: dev
+  tag: latest
   pullPolicy: Always
 service:
   type: NodePort
@@ -28,7 +28,7 @@ affinity: {}
 app:
   nodeEnv: development
   loggerLevel: info
-  mongodbServiceName: mongodb
+  mongodbServiceName: notes-mongodb
   mongodbPort: "27017"
   mongodbUsername: test
   mongodbPassword: test

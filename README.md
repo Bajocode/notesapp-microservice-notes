@@ -9,8 +9,7 @@ This app represents the notes api and provides clients with note resource method
 - buy domain on namecheap
   - if your cluster supports ingress, enable it in values.yaml
   - if not, link an DNS A-record to the external IP of a Node and append the node port to the url; `http://notes.bajo-k8s.online:30001/documentation`
-- 
-
+- architectures used
 
 ## Stack
 - kubernetes: https://kubernetes.io/
@@ -21,9 +20,6 @@ This app represents the notes api and provides clients with note resource method
 - mongodb: https://www.mongodb.com/
 
 ## Installing
-
-A quick introduction of the minimal setup you need to get a hello world up &
-running.
 
 ```shell
 brew install nvm

@@ -7,6 +7,7 @@ import { IMongoContext } from './mongo';
 import IDomainValidator from './domain/common/IDomainValidator';
 import NoteValidator from './domain/notes/NoteValidator';
 import notes from './domain/notes';
+import status from './domain/status';
 import Config from './Config';
 import { Logger } from 'winston';
 
@@ -15,7 +16,7 @@ export const constructServer = async (config: Config,
                                       context: IMongoContext): Promise<Server> => {
   try {
     const server = instantiateServer(config);
-    await registerComponents(server, context);
+    await registerComponents(server);
     registerRoutes(server, context);
 
     return server;
@@ -32,8 +33,7 @@ const instantiateServer = (config: Config): Server => {
   });
 };
 
-const registerComponents = async (server: Server,
-                                  context: IMongoContext): Promise<void> =>  {
+const registerComponents = async (server: Server): Promise<void> =>  {
   Promise.all([
     server.register([inert, vision]),
     server.register({
@@ -55,4 +55,5 @@ const registerRoutes = (server: Server,
   };
 
   notes(server, context, validator);
+  status(server);
 };

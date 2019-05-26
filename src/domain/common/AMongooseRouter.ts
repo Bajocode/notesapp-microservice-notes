@@ -3,7 +3,6 @@ import { ServerRoute } from 'hapi';
 import { toHapiResponse } from './IHttpResponse';
 import AMongooseController from './AMongooseController';
 import ACrudValidator from './ACrudValidator';
-import { notes } from 'joi';
 
 export default class AMongooseRouter<T extends Document> {
   protected post(controller: AMongooseController<T>,
