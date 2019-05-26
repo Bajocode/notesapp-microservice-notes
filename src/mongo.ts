@@ -34,6 +34,8 @@ const processMongoEvents = (mongoose: Mongoose, mongoUrl: string, logger: Logger
   });
   mongoose.connection.on(MongoState.Error, (error) => {
     logger.error(`Mongo connection error: ${error}`);
+
+    throw error;
   });
   mongoose.connection.on(MongoState.Disconnected, () => {
     logger.info('Mongo disconnected');
