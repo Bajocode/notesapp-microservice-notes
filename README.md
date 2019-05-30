@@ -7,8 +7,10 @@ This app represents the notes api and provides clients with note resource method
 
 ## Tutorial notes
 - buy domain on namecheap
+  - add staging and prod subdomains by pointing A records to you worker node external IP
   - if your cluster supports ingress, enable it in values.yaml
   - if not, link an DNS A-record to the external IP of a Node and append the node port to the url; `http://notes.bajo-k8s.online:30001/documentation`
+  - Currently ingress disabled because IBM's free cluster doesn not allow external load balancers
 - architectures used
 
 ## Stack
