@@ -8,5 +8,8 @@ export default class NoteValidator extends ACrudValidator {
       title: joi.string().required(),
       body: joi.string().allow(''),
     });
-  public readonly payloadUpdateSchema = joi.object();
+  public readonly payloadUpdateSchema = joi.object().keys({
+    title: joi.string().allow(''),
+    body: joi.string().allow(''),
+  });
 }

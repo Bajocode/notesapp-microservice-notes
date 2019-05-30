@@ -14,8 +14,10 @@ export default class NoteRouter extends AMongooseRouter<INoteModel> {
     const domainName = 'notes';
 
     server.route([
-      super.post(controller, validator.notes, domainName),
       super.get(controller, domainName),
+      super.post(controller, validator.notes, domainName),
+      super.put(controller, validator.notes, domainName),
+      super.delete(controller, validator.notes, domainName),
     ]);
   }
 }
